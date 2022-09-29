@@ -1,6 +1,5 @@
 # Sample Project - Apache Beam Pipeline
 
-https://img.shields.io/badge/Codecov-F01F7A?style=for-the-badge&logo=Codecov&logoColor=white
 ## Objective
 
 This repository was created for personal study purposes.

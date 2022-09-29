@@ -57,16 +57,16 @@ mvn compile exec:java -Dexec.mainClass=br.com.rodrigo.pipeline.MonthlyPurchasesP
 ### Google Cloud Dataflow
 
 ```bash
-gcloud builds submit --tag us-east1-docker.pkg.dev/playground-s-11-9edb741d/dataflow-samples/dataflow/monthly-purchases-per-gas-station:latest .
-```
-
-```bash
 mvn clean package
 ```
 
 ```bash
-gcloud dataflow flex-template build gs://dataflow-templates-playground-s-11-9edb741d/samples/dataflow/templates/monthly-purchases-per-gas-station.json \
---image-gcr-path "us-east1-docker.pkg.dev/playground-s-11-9edb741d/dataflow-samples/dataflow/monthly-purchases-per-gas-station:latest" \
+gcloud builds submit --tag us-east1-docker.pkg.dev/playground-s-11-6ca7f8c0/dataflow-samples/dataflow/monthly-purchases-per-gas-station:latest .
+```
+
+```bash
+gcloud dataflow flex-template build gs://dataflow-templates-playground-s-11-6ca7f8c0/samples/dataflow/templates/monthly-purchases-per-gas-station.json \
+--image-gcr-path "us-east1-docker.pkg.dev/playground-s-11-6ca7f8c0/dataflow-samples/dataflow/monthly-purchases-per-gas-station:latest" \
 --sdk-language "JAVA" \
 --flex-template-base-image JAVA11 \
 --metadata-file "metadata.json" \
@@ -76,9 +76,9 @@ gcloud dataflow flex-template build gs://dataflow-templates-playground-s-11-9edb
 
 ```bash
 gcloud dataflow flex-template run "monthly-purchases-per-gas-station-`date +%Y%m%d-%H%M%S`" \
---template-file-gcs-location "gs://dataflow-templates-playground-s-11-9edb741d/samples/dataflow/templates/monthly-purchases-per-gas-station.json" \
---parameters inputPath="gs://dataflow-data-bucket-playground-s-11-9edb741d/input/" \
+--template-file-gcs-location "gs://dataflow-templates-playground-s-11-6ca7f8c0/samples/dataflow/templates/monthly-purchases-per-gas-station.json" \
+--parameters inputPath="gs://dataflow-data-bucket-playground-s-11-6ca7f8c0/input/" \
 --parameters fileName="input/transactions_1k_202209260946.csv" \
---parameters outputPath="gs://dataflow-data-bucket-playground-s-11-9edb741d/input/" \
+--parameters outputPath="gs://dataflow-data-bucket-playground-s-11-6ca7f8c0/input/" \
 --region "us-east1"
 ```

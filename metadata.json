@@ -1,0 +1,21 @@
+{
+  "name": "Monthly purchases per gas station",
+  "description": "The pipeline have to read the csv file containing gas station transactions and group them by gasStationId and summing the total of transactions per month (YYYY-MM)",
+  "parameters": [
+    {
+      "name": "inputPath",
+      "label": "Input file path",
+      "helpText": "Input file path"
+    },
+    {
+      "name": "fileName",
+      "label": "Input file name",
+      "helpText": "Input file name"
+    },
+    {
+      "name": "outputPath",
+      "label": "Output file path",
+      "helpText": "Output file path"
+    }
+  ]
+}

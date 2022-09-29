@@ -48,6 +48,37 @@ In this pipeline was implemented the following concepts and techniques:
 
 ## How to run?
 
+### Locally
+
 ```sh
-mvn compile exec:java -Dexec.mainClass=br.com.rodrigo.pipeline.MonthlyPurchasesPerGasStation -Dexec.args="--inputPath=/Users/rodrigo/Documents/projects/dataflow/monthly-purchases-per-gas-station/input/ --outputPath=/Users/rodrigo/Documents/projects/dataflow/monthly-purchases-per-gas-station/output/ --fileName=transactions_1k_202209260946.csv" -P direct-runner
+mvn compile exec:java -Dexec.mainClass=br.com.rodrigo.pipeline.MonthlyPurchasesPerGasStation -Dexec.args="--inputPath=~/Documents/projects/dataflow/monthly-purchases-per-gas-station/input/ --outputPath=/Users/rodrigo/Documents/projects/dataflow/monthly-purchases-per-gas-station/output/ --fileName=transactions_1k_202209260946.csv" -P direct-runner
+```
+
+### Google Cloud Dataflow
+
+```bash
+gcloud builds submit --tag us-east1-docker.pkg.dev/playground-s-11-9edb741d/dataflow-samples/dataflow/monthly-purchases-per-gas-station:latest .
+```
+
+```bash
+mvn clean package
+```
+
+```bash
+gcloud dataflow flex-template build gs://dataflow-templates-playground-s-11-9edb741d/samples/dataflow/templates/monthly-purchases-per-gas-station.json \
+--image-gcr-path "us-east1-docker.pkg.dev/playground-s-11-9edb741d/dataflow-samples/dataflow/monthly-purchases-per-gas-station:latest" \
+--sdk-language "JAVA" \
+--flex-template-base-image JAVA11 \
+--metadata-file "metadata.json" \
+--jar "target/monthly-purchases-per-gas-station-1.0-SNAPSHOT.jar" \
+--env FLEX_TEMPLATE_JAVA_MAIN_CLASS="br.com.rodrigo.pipeline.MonthlyPurchasesPerGasStation"
+```
+
+```bash
+gcloud dataflow flex-template run "monthly-purchases-per-gas-station-`date +%Y%m%d-%H%M%S`" \
+--template-file-gcs-location "gs://dataflow-templates-playground-s-11-9edb741d/samples/dataflow/templates/monthly-purchases-per-gas-station.json" \
+--parameters inputPath="gs://dataflow-data-bucket-playground-s-11-9edb741d/input/" \
+--parameters fileName="input/transactions_1k_202209260946.csv" \
+--parameters outputPath="gs://dataflow-data-bucket-playground-s-11-9edb741d/input/" \
+--region "us-east1"
 ```
